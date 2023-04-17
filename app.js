@@ -1,40 +1,34 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Musicos from './src/Musicos.jsx';
-import Saludo from './src/Saludo.jsx';
-import SaludoFuncional from './src/SaludoFuncional.jsx';
+import Respuesta from './src/Respuesta.jsx';
+import Navbar from './src/Navbar.jsx';
 import axios from "axios";
 
-const API_KEY="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"
+const API_KEY="sss"
 const input="Corrientes Capital es una ciudad fria"
-
-const musicos = [
-  {
-    name: 'John',
-    lastname: 'Lennon',
-    band: 'The Beatles'
-  },
-  {
-    name: 'David',
-    lastname: 'Gilmour',
-    band: 'Pink Floyd'
-  },
-  {
-    name: 'Tom',
-    lastname: 'Yorke',
-    band: 'Radiohead'
-  }
-];
 
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state={
-      input: ""
+      input: "",
+      answer: "",
+      visible: false
     }
 
     this.talk = this.talk.bind(this);
     this.inputhandler = this.inputhandler.bind(this);
+    this.promisehandler = this.promisehandler.bind(this);
+
+  }
+
+  promisehandler(x){
+
+      console.log("RESPUESTA")
+      console.log(x.data.choices[0].text)
+
+      this.setState({input: "",answer: x.data.choices[0].text, visible: true})
+
 
   }
 
@@ -61,28 +55,49 @@ class App extends React.Component {
           Authorization: `Bearer ${API_KEY}`,
         },
       }
-    ).then(function(x){
-      console.log("RESPUESTA")
-      console.log(x.data.choices[0].text)
-
-
-    })
-
-  }
-
-
+    ).then(this.promisehandler)
+}
 
   render() {
     return (
-      <div>
-        <textarea class="form-control" id="textarea" rows="3" onChange={this.inputhandler}></textarea>
-        <button onClick={this.talk}>Ask me!</button>
+
+        this.state.visible===true?
+        <div>
+          <Navbar />
+
+          <Respuesta texto={this.state.answer} />
+
+        <div class="row justify-content-center">
+        <div class="col-7 py-2">
+          <textarea class="form-control" id="textarea" rows="3" onChange={this.inputhandler} value={this.state.input}></textarea>
+        </div>
+        </div>
+        <div class="row justify-content-center">
+        <div class="col-6 py-3">
+          <button onClick={this.talk} class="btn btn-secondary" >Ask me again!</button>
+        </div>
+        </div>
+        </div>
+        :<div>
+        <Navbar />
+
+        <div class="row justify-content-center">
+        <h1>I am OpenAI's GPT-3 model. You can ask me jus about anything!</h1>
+        <div class="col-7 py-4">
+          <textarea class="form-control" id="textarea" rows="3" onChange={this.inputhandler} value={this.state.input}></textarea>
+        </div>
+        </div>
+        <div class="row justify-content-center">
+        <div class="col-6 py-3">
+          <button onClick={this.talk} class="btn btn-secondary" >Ask me!</button>
+        </div>
+        </div>
       </div>
     );
   }
 };
 
-
+//ternario en el return
 
 
 // function App() {
