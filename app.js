@@ -2,9 +2,10 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Respuesta from './src/Respuesta.jsx';
 import Navbar from './src/Navbar.jsx';
+import Controls from './src/Controls.jsx';
 import axios from "axios";
 
-const API_KEY="sss"
+const API_KEY=""
 const input="Corrientes Capital es una ciudad fria"
 
 class App extends React.Component {
@@ -61,38 +62,12 @@ class App extends React.Component {
   render() {
     return (
 
-        this.state.visible===true?
         <div>
           <Navbar />
-
           <Respuesta texto={this.state.answer} />
+          <Controls value={this.state.input} cb={this.inputhandler} cbtalk={this.talk} visible={this.state.visible} />
+        </div>
 
-        <div class="row justify-content-center">
-        <div class="col-7 py-2">
-          <textarea class="form-control" id="textarea" rows="3" onChange={this.inputhandler} value={this.state.input}></textarea>
-        </div>
-        </div>
-        <div class="row justify-content-center">
-        <div class="col-6 py-3">
-          <button onClick={this.talk} class="btn btn-secondary" >Ask me again!</button>
-        </div>
-        </div>
-        </div>
-        :<div>
-        <Navbar />
-
-        <div class="row justify-content-center">
-        <h1>I am OpenAI's GPT-3 model. You can ask me jus about anything!</h1>
-        <div class="col-7 py-4">
-          <textarea class="form-control" id="textarea" rows="3" onChange={this.inputhandler} value={this.state.input}></textarea>
-        </div>
-        </div>
-        <div class="row justify-content-center">
-        <div class="col-6 py-3">
-          <button onClick={this.talk} class="btn btn-secondary" >Ask me!</button>
-        </div>
-        </div>
-      </div>
     );
   }
 };
